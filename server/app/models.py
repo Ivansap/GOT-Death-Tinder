@@ -21,10 +21,12 @@ SERIES_STATUS_CHOICES_DICT = {
 class Series(models.Model):
     title = models.CharField(max_length=120)
     showtime = models.DateTimeField()
-
+    number = models.SmallIntegerField()
     img = models.ImageField(upload_to='series_preview')
     status = models.PositiveSmallIntegerField(choices=SERIES_STATUS_CHOICES_DICT, default=SeriesStatus.comming_soon)
 
+    def __str__(self):
+        return f'Эпизод {self.number} - {self.get_status_display()}'
 
 class CharacterStatus:
     is_dead = 0
@@ -46,6 +48,8 @@ class Character(models.Model):
     description = models.TextField(null=True, blank=True)
     status = models.PositiveSmallIntegerField(choices=CHARACTER_STATUS_CHOICES_DICT, default=CharacterStatus.is_alive)
 
+    def __str__(self):
+        return f'{self.name} - {self.get_status_display()}'
 
 class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
