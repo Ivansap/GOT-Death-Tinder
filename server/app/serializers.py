@@ -40,7 +40,9 @@ class SeriesSingleSerializer(serializers.ModelSerializer):
 
 class UserAuthSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ('username', 'first_name', 'last_name')

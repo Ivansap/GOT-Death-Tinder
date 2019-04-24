@@ -1,17 +1,31 @@
 import requests
 
 from django.contrib.auth import logout, login
-from django.shortcuts import render
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny
-from rest_framework.views import APIView
 
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_jwt.views import api_settings
 
-from .models import Series
 from .serializers import *
+
+
+class JwtViewSet(APIView):
+    def get(self, request, format=None):
+        if not request.user.is_authenticated:
+            return redirect('/auth/login')
+
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+        payload = jwt_payload_handler(request.user)
+        token = jwt_encode_handler(payload)
+        return Response({'jwt': token})
+
+
 
 
 class SeriesListViewSet(ListAPIView):
@@ -113,10 +127,11 @@ class UserCreateView(CreateAPIView):
         else:
             UserDevices.objects.create(device_id=device_id, user=base_user)
 
-        user = User.objects.get(base_user=base_user)
+        user, created = User.objects.get_or_create(base_user=base_user)
 
-        user.first_name = user_info['first_name']
-        user.last_name = user_info['last_name']
+        print(user_info)
+        user.first_name = user_info.get('first_name')
+        user.last_name = user_info.get('last_name')
         user.url = f'https://vk.com/id{user_id}'
         user.save()
 
@@ -126,7 +141,8 @@ class UserCreateView(CreateAPIView):
         if base_user is not None and base_user.is_active:
             login(self.request, base_user)
         else:
-            raise ValueError("Can't authenticate username: {}.\nUser is null or not active".format(token))
+            return Response({'error': "Can't authenticate username: {}.\nUser is null or not active"}, status=400)
+            # raise ValueError("Can't authenticate username: {}.\nUser is null or not active".format(token))
 
         serializer = self.serializer_class(user)
         response = serializer.data

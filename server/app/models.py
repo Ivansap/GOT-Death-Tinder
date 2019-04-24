@@ -15,7 +15,7 @@ class SeriesStatus:
 SERIES_STATUS_CHOICES_DICT = {
     (SeriesStatus.released, 'Вышла'),
     (SeriesStatus.comming_soon, 'Скоро будет'),
-    }
+}
 
 
 class Series(models.Model):
@@ -28,6 +28,7 @@ class Series(models.Model):
     def __str__(self):
         return f'Эпизод {self.number} - {self.get_status_display()}'
 
+
 class CharacterStatus:
     is_dead = 0
     is_alive = 1
@@ -38,7 +39,7 @@ CHARACTER_STATUS_CHOICES_DICT = {
     (CharacterStatus.is_dead, 'Мертв'),
     (CharacterStatus.is_alive, 'Жив'),
     (CharacterStatus.is_wights, 'Вихт')
-    }
+}
 
 
 class Character(models.Model):
@@ -50,6 +51,7 @@ class Character(models.Model):
 
     def __str__(self):
         return f'{self.name} - {self.get_status_display()}'
+
 
 class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
