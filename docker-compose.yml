@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: cserver
+    container_name: got_server
     env_file: .env
     volumes:
       - ./server:/app
@@ -22,7 +22,7 @@ services:
     restart: always
   db:
     image: postgres:11.0
-    container_name: cdb
+    container_name: got_db
     restart: always
     expose:
       - "5439"
@@ -30,13 +30,13 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
   nginx:
-    container_name: cnginx
+    container_name: got_nginx
     restart: always
     build:
       context: ./nginx/
       dockerfile: Dockerfile
     ports:
-      - "6000:6000"
+      - "4000:80"
 #      - "443:443"
     volumes:
       - ./logs/nginx:/var/log/nginx
