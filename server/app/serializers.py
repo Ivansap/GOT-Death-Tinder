@@ -36,3 +36,11 @@ class SeriesSingleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series
         fields = ('title', 'showtime', 'img', 'status', 'cards')
+
+
+class UserAuthSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ('username',)

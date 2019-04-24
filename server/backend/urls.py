@@ -14,9 +14,9 @@ class FCMViewWrap(FCMDeviceAuthorizedViewSet):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/auth', obtain_jwt_token),
+    path('api/v1/jwt', obtain_jwt_token),
     path('api/v1/devices', FCMViewWrap.as_view({'post': 'create'}), name='create_fcm_device'),
-    path('api/v1/authorize', UserAuthViewSet.as_view()),
+    path('api/v1/auth', UserAuthViewSet.as_view()),
 
     path('api/v1/series', SeriesListViewSet.as_view()),
     path('api/v1/series/<int:pk>', SeriesSingleViewSet.as_view()),

@@ -50,9 +50,17 @@ class Character(models.Model):
 class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     base_user = models.OneToOneField(BaseUser, primary_key=True, on_delete=models.CASCADE, related_name='user_profile')
-
     username = models.CharField(max_length=120)
+
+    first_name = models.CharField(max_length=120)
+    last_name = models.CharField(max_length=120)
     url = models.URLField(null=True, blank=True)
+
+
+class UserDevices(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    device_id = models.CharField(max_length=200, unique=True, blank=True, null=True)
+    user = models.ForeignKey(BaseUser, on_delete=models.CASCADE)
 
 
 class Card(models.Model):
