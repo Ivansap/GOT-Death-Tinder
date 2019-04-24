@@ -10,7 +10,3 @@ services:
   db:
     ports:
       - "5432:5432"
-  frontend:
-    command: npm run dev
-    ports:
-      - "8080:8080"
