@@ -26,8 +26,6 @@ class JwtViewSet(APIView):
         return Response({'jwt': token})
 
 
-
-
 class SeriesListViewSet(ListAPIView):
     queryset = Series.objects.all()
     serializer_class = SeriesListSerializer
@@ -48,11 +46,14 @@ class SeriesSingleViewSet(ListAPIView):
 
 class UserAnswerViewSet(CreateAPIView):
 
-    def create(self, request, *args, **kwargs):
-        user_id = request.user.id
-        card_answer_id = request.data.pop('id')
+    def create(self, request, pk, apk, *args, **kwargs):
 
-        u_a = UserAnswer(user_id=user_id, card_id=card_answer_id)
+        user_id = request.user.id
+
+        card = Card.objects.filter(pk=pk).fist()
+        card_answer = CardAnswer.objects.filter(pk=apk, card=card).first()
+
+        u_a = UserAnswer(user_id=user_id, card_answer=card_answer)
 
         try:
             u_a.save()
