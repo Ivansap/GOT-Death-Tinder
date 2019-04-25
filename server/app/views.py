@@ -50,7 +50,7 @@ class UserAnswerViewSet(CreateAPIView):
 
         user_id = request.user.id
 
-        card = Card.objects.filter(pk=pk).fist()
+        card = Card.objects.filter(pk=pk).first()
         card_answer = CardAnswer.objects.filter(pk=apk, card=card).first()
 
         u_a = UserAnswer(user_id=user_id, card_answer=card_answer)
