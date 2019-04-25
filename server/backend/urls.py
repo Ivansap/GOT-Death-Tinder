@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('api/v1/series', SeriesListViewSet.as_view()),
     path('api/v1/series/<int:pk>', SeriesSingleViewSet.as_view()),
-    path('api/v1/series/<int:pk>/answer/<int:apk>', UserAnswerViewSet.as_view()),
+    path('api/v1/series/<int:pk>/answers/<int:apk>', UserAnswerViewSet.as_view()),
 
     ]
 
